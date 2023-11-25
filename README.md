@@ -3,6 +3,7 @@
 # Configuração do Projeto
 
 Este documento descreve os passos necessários para configurar e executar o projeto springboot-restful-webservice.
+Tecnologias utilizadas: Java com springboot 3, redis, mysql, docker, docker-compose
 
 ## Pré-requisitos
 
@@ -48,6 +49,14 @@ Agora que o ambiente está configurado e os contêineres estão em execução, v
 1. Inicie o aplicativo Interface Swagger UI:
 
 2. O aplicativo estará acessível em [http://localhost:8080/docs](http://localhost:8080/docs).
+
+## Verificar o cache no Redis
+
+1. Comando line: docker exec -it CONTAINER_ID redis-cli -a password
+
+```sh
+$ docker exec -it CONTAINER_ID redis-cli -a eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+```
 
 ## Encerrando o Projeto
 

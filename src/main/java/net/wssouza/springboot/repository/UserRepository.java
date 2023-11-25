@@ -10,6 +10,10 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    default List<User> findAllOrEmpty() {
+        List<User> users = findAll();
+        return users != null ? users : List.of();
+    }
     @Query(value = "SELECT DISTINCT u.*, o.order_id,o.date,o.total_value, p.* "+
             "FROM "+
             "users u "+

@@ -1,25 +1,16 @@
-# Use a imagem do Maven para compilar o projeto
-FROM maven:3.6.3-openjdk-8 AS build
+# Etapa 1: Use uma imagem Maven para compilar o projeto
+FROM maven:3.8.1-openjdk-17 AS build
 
-# Configurar o diretório de trabalho
 WORKDIR /app
 
-# Copiar apenas o arquivo POM para obter dependências
-COPY ./pom.xml .
+COPY pom.xml .
+COPY src src
 
-# Baixar as dependências do Maven
-RUN mvn dependency:go-offline
+RUN mvn clean install
 
-# Copiar o código-fonte
-COPY ./src ./src
+# Etapa 2: Use uma imagem OpenJDK para a execução da aplicação
+FROM openjdk:17-jdk-alpine
 
-# Compilar o projeto
-RUN mvn package
-
-# Use a imagem do OpenJDK para a execução da aplicação
-FROM openjdk:8-jdk-alpine
-
-# Configurar o diretório de trabalho
 WORKDIR /app
 
 # Copiar o JAR gerado da etapa de compilação

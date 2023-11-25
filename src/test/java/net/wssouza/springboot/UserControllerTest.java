@@ -1,33 +1,28 @@
-package net.wssouza.springboot;
 
+package net.wssouza.springboot;
 import net.wssouza.springboot.controller.UserController;
-import net.wssouza.springboot.entity.User;
 import net.wssouza.springboot.service.FilesStorageService;
 import net.wssouza.springboot.service.UserService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import net.wssouza.springboot.entity.User;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Collections;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
-@AutoConfigureMockMvc
-class UserControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
+public class UserControllerTest {
 
     @Mock
     private UserService userService;
@@ -38,50 +33,67 @@ class UserControllerTest {
     @InjectMocks
     private UserController userController;
 
+//    @Disabled
     @Test
-    static void testUploadFile() throws Exception {
-        MockMultipartFile file = new MockMultipartFile(
+    public void testUploadFile() {
+        // Criar um exemplo de arquivo multipart
+        MultipartFile mockFile = new MockMultipartFile(
                 "file",
                 "data_1.txt",
                 MediaType.TEXT_PLAIN_VALUE,
                 "Hello, World!".getBytes()
         );
 
-        when(storageService.store(any())).thenReturn("data_1.txt");
-        when(storageService.openFile("data_1.txt")).thenReturn(Collections.singletonList(new User()));
+                // Configurar o comportamento esperado do FilesStorageService
+                when(storageService.store(any(MultipartFile.class))).thenReturn("data_1.txt");
+        when(storageService.openFile(anyString())).thenReturn(List.of(new User()));
 
-        mockMvc.perform(MockMvcRequestBuilders.multipart("/api/users/upload")
-                        .file(file))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+        // Executar o método sob teste
+        ResponseEntity<List<User>> responseEntity = userController.uploadFile(mockFile);
+
+        // Verificar se o resultado é o esperado
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        // Adicione mais verificações conforme necessário
     }
 
+//    @Disabled
     @Test
-    static void testGetUserById() throws Exception {
-        Long userId = 1L;
-        when(userService.findUserWithOrdersAndProducts(userId)).thenReturn(Collections.singletonList(new User()));
+    public void testGetUserById() {
+        // Configurar o comportamento esperado do UserService
+        when(userService.findUserWithOrdersAndProducts(anyLong())).thenReturn(List.of(new User()));
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/users/{id}", userId))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+        // Executar o método sob teste
+        ResponseEntity<List<User>> responseEntity = userController.getUserById(1L);
+
+        // Verificar se o resultado é o esperado
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        // Adicione mais verificações conforme necessário
     }
 
+//    @Disabled
     @Test
-    static void testSearch() throws Exception {
-        Long userId = 2L;
-        String startDate = "2021-07-14";
-        String endDate = "2021-12-12";
+    public void testSearch() {
+        // Configurar o comportamento esperado do UserService
+        when(userService.findUserWithOrdersAndProductsDate(anyLong(), anyString(), anyString())).thenReturn(List.of(new User()));
 
-        when(userService.findUserWithOrdersAndProductsDate(userId, startDate, endDate))
-                .thenReturn(Collections.singletonList(new User()));
+        // Executar o método sob teste
+        ResponseEntity<List<User>> responseEntity = userController.search(2L, "2021-07-14", "2021-12-12");
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/users/search/{userId}/{startDate}/{endDate}", userId, startDate, endDate))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+        // Verificar se o resultado é o esperado
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        // Adicione mais verificações conforme necessário
     }
-
+//    @Disabled
     @Test
-    static void testGetAllUsers() throws Exception {
-        when(userService.getAllUsers()).thenReturn(Collections.singletonList(new User()));
+    public void testGetAllUsers() {
+        // Configurar o comportamento esperado do UserService
+        when(userService.getAllUsers()).thenReturn(List.of(new User()));
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/users"))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+        // Executar o método sob teste
+        ResponseEntity<List<User>> responseEntity = userController.getAllUsers();
+
+        // Verificar se o resultado é o esperado
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        // Adicione mais verificações conforme necessário
     }
 }

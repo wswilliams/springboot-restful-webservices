@@ -21,7 +21,6 @@ import java.util.*;
 
 @Service
 @AllArgsConstructor
-//@CacheConfig(cacheNames = "userCache")
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
@@ -128,7 +127,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userRepository.findAllOrEmpty();
     }
 
     @Override
