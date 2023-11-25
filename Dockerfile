@@ -1,6 +1,6 @@
-FROM eclipse-temurin:17
+FROM openjdk:8-jdk-alpine
 
-LABEL mentainer="wssouza.net@gmail.com"
+LABEL mentainer="wswilliamssilva938@gmail.com"
 
 WORKDIR /app
 
