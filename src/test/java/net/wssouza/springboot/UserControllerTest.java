@@ -4,9 +4,11 @@ import net.wssouza.springboot.controller.UserController;
 import net.wssouza.springboot.service.FilesStorageService;
 import net.wssouza.springboot.service.UserService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.Disabled;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,7 @@ import static org.mockito.Mockito.*;
 
 @Disabled
 @SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class UserControllerTest {
 
     @Mock
@@ -42,7 +45,7 @@ public class UserControllerTest {
                 "file",
                 "data_1.txt",
                 MediaType.TEXT_PLAIN_VALUE,
-                "Hello, World!".getBytes()
+                "0000000070                              Palmer Prosacco00000007530000000003     1836.7420210308".getBytes()
         );
 
                 // Configurar o comportamento esperado do FilesStorageService
@@ -71,7 +74,7 @@ public class UserControllerTest {
 
     }
 
-    @Disabled
+//    @Disabled
     @Test
     public void testSearch() {
         // Configurar o comportamento esperado do UserService
@@ -84,7 +87,7 @@ public class UserControllerTest {
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
     }
-    @Disabled
+//    @Disabled
     @Test
     public void testGetAllUsers() {
         // Configurar o comportamento esperado do UserService
