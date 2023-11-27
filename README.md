@@ -44,11 +44,15 @@ $ docker ps
 
 ## Executando o Projeto
 
-Agora que o ambiente está configurado e os contêineres estão em execução, você pode iniciar o projeto:
+Agora que o ambiente está configurado e os contêineres estão em execução, você poderá acessar a aplicação:
 
 1. Inicie o aplicativo Interface Swagger UI:
 
 2. O aplicativo estará acessível em [http://localhost:8080/docs](http://localhost:8080/docs).
+
+3. Faça upload dos dados para aplicação com o arquivo: data_1.txt ou data_2.txt
+
+4. Filtros por userId e (userId, startDate e endDate), ambas consulta utilzam cache no redis
 
 ## Verificar o cache no Redis
 
@@ -56,6 +60,13 @@ Agora que o ambiente está configurado e os contêineres estão em execução, v
 
 ```sh
 $ docker exec -it CONTAINER_ID redis-cli -a eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+```
+2. Comando line: Consultar o cache
+
+```sh
+$ KEYS *  "Lista todas os caches armazenados"
+$ MGET key_item "Exibe os dados do cache especifico"
+$ exit "Sair do redis"
 ```
 
 ## Encerrando o Projeto
@@ -67,4 +78,5 @@ $ docker stop CONTAINER_ID
 
 ## Conclusão
 
-O projeto springboot-restful-webservice está configurado e pronto para ser executado em seu ambiente de desenvolvimento. Certifique-se de seguir as etapas de configuração e execução conforme descrito acima.
+O projeto springboot-restful-webservice está configurado e pronto para ser executado em seu ambiente de.
+Certifique-se de seguir as etapas de configuração e execução conforme descrito acima.
