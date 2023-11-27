@@ -112,6 +112,7 @@ public class FilesStorageServiceImpl implements FilesStorageService {
 
         } catch (IOException | ParseException e) {
             e.printStackTrace();
+            return List.of();
         }
 
         return new ArrayList<>(userMap.values());

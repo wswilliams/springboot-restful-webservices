@@ -36,9 +36,13 @@ public class UserController {
 
             List<User> users = storageService.openFile(message);
 
-            userService.createUser(users);
+            if (users.isEmpty())
+                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(null);
+            else {
+                userService.createUser(users);
+                return ResponseEntity.status(HttpStatus.OK).body(users);
+            }
 
-            return ResponseEntity.status(HttpStatus.OK).body(users);
         } catch (Exception e) {
             message = "Could not upload the file: " + file.getOriginalFilename() + ". Error: " + e.getMessage();
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(null);

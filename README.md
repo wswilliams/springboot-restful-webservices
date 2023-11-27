@@ -50,7 +50,7 @@ Agora que o ambiente está configurado e os contêineres estão em execução, v
 
 2. O aplicativo estará acessível em [http://localhost:8080/docs](http://localhost:8080/docs).
 
-3. Faça upload dos dados para aplicação com o arquivo: data_1.txt ou data_2.txt
+3. Faça upload dos dados para aplicação com os arquivos: data_1.txt, data_2.txt
 
 4. Filtros por userId e (userId, startDate e endDate), ambas consulta utilzam cache no redis
 
