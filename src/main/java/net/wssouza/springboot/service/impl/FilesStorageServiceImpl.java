@@ -82,7 +82,7 @@ public class FilesStorageServiceImpl implements FilesStorageService {
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String linha;
             while ( ( linha = bufferedReader.readLine() ) != null) {
-//                    System.out.println(linha);
+
                     Long userId = Long.parseLong(linha.substring(0, 10).trim());
                     String userName = linha.substring(10, 55).trim();
                     Long orderId = Long.parseLong(linha.substring(56, 65).trim());
