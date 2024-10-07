@@ -17,17 +17,6 @@ services:
     networks:
       - netApi
 
-  cache:
-    image: redis:6.2-alpine
-    restart: always
-    ports:
-      - '6379:6379'
-    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
-    volumes:
-      - cache:/data
-    networks:
-      - netApi
-
   springboot-restful-webservices:
     container_name: springboot-restful-webservices
     build:
@@ -37,7 +26,6 @@ services:
       - "8080:8080"
     depends_on:
       - mysqldb
-      - cache
     networks:
       - netApi
     restart: on-failure

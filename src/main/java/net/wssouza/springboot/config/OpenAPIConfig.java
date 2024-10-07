@@ -1,46 +1,47 @@
 package net.wssouza.springboot.config;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Value;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Contact;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.security.SecurityScheme.In;
+
 
 @Configuration
+@OpenAPIDefinition(
+        info = @Info(
+                title = "JSON Web Token Authentication API",
+                description = "This is a sample JWT authentication service. You can find out more about JWT at [https://jwt.io/](https://jwt.io/). For this sample, you can use the `admin` or `client` users (password: admin and client respectively) to test the authorization filters. Once you have successfully logged in and obtained the token, you should click on the right top button `Authorize` and introduce it with the prefix \"Bearer \".",
+                version = "1.0.0",
+                contact = @Contact(email = "mauriurraco@gmail.com")
+        ),
+        servers = @Server(url = "http://localhost:8080"),
+        security = @SecurityRequirement(name = "bearerAuth")
+)
+@SecurityScheme(
+        name = "bearerAuth",
+        type = SecuritySchemeType.HTTP,
+        scheme = "bearer",
+        bearerFormat = "JWT"
+)
 public class OpenAPIConfig {
 
-    @Value("${desafio.openapi.dev-url}")
-    private String devUrl;
-
-    @Value("${desafio.openapi.prod-url}")
-    private String prodUrl;
-
     @Bean
-    public OpenAPI myOpenAPI() {
-        Server devServer = new Server();
-        devServer.setUrl(devUrl);
-        devServer.setDescription("Server URL in Development environment");
-
-        Server prodServer = new Server();
-        prodServer.setUrl(prodUrl);
-        prodServer.setDescription("Server URL in Production environment");
-
-        Contact contact = new Contact();
-        contact.setEmail("wswilliamssilva938@gmail.com");
-        contact.setName("wswilliams");
-        contact.setUrl("");
-
-        Info info = new Info()
-                .title("Desafio Luizalabs Management API")
-                .version("1.0")
-                .contact(contact)
-                .description("This API exposes endpoints to manage desafio.");
-
-        return new OpenAPI().info(info).servers(List.of(devServer, prodServer));
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                .components(new Components()
+                        .addSecuritySchemes("bearerAuth",
+                                new io.swagger.v3.oas.models.security.SecurityScheme().type(
+                                        io.swagger.v3.oas.models.security.SecurityScheme.Type.HTTP)
+                                        .scheme("bearer")
+                                        .bearerFormat("JWT")))
+                .addSecurityItem(new io.swagger.v3.oas.models.security.SecurityRequirement().addList("bearerAuth"));
     }
 }

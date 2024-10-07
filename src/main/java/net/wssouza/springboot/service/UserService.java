@@ -1,18 +1,17 @@
 package net.wssouza.springboot.service;
 
+import jakarta.servlet.http.HttpServletRequest;
 import net.wssouza.springboot.entity.User;
 
 import java.util.List;
 
 public interface UserService {
-    void createUser(List<User> users);
 
-    public List<User> findUserWithOrdersAndProductsDate(Long userId, String startDate, String endDate);
-    public List<User> findUserWithOrdersAndProducts(Long userId);
-
-    public List<User> getAllUsers();
-
-    public User newUser(User user) ;
-
-    void deleteUser(Long userId);
+    public String signin(String username, String password);
+    public String signup(User user);
+    public void delete(String username);
+    public User search(String username);
+    public User whoami(HttpServletRequest req);
+    public String refresh(String username);
+    boolean existsByUsername(String username);
 }
